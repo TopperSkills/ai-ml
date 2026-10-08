@@ -1,8 +1,21 @@
+Machine Learning
 
 Traditional: Rules + Data ──► Answers
-ML: Data + Answers ──► Rules (the "model")
-Say you want to detect diabetes. In normal programming you'd write if glucose > 140 and bmi > 30: ... yourself. In ML, you give the computer thousands of patient records along with the known outcomes, and it learns the rules on its own.
 
+ML: Data + Answers ──► Rules (the "model")
+
+ML Algorithms + training = AI/ML model
+
+Boy + teach driving 1 = driver  
+Boy + teach driving 2 = driver
+
+ML Algorithm
+
+Medicine + Doctor = cure the patient
+
+ML algo + AI/ML developer = solve real life problem
+
+Say you want to detect diabetes. In normal programming you'd write if glucose > 140 and bmi > 30: ... yourself. In ML, you give the computer thousands of patient records along with the known outcomes, and it learns the rules on its own.
 
 Features (X) -> The inputs/columns -> used to predict Glucose, BMI, Age…
 
@@ -16,58 +29,88 @@ Training -> The learning step -> .fit()
 
 Prediction / Inference -> Using the model on new data -> .predict()
 
+Algorithm vs Model:
 
-Algorithm vs Model: 
-- an algorithm is like an empty brain with a learning method. 
-- A model is that brain after it has studied. 
+- an algorithm is like an empty brain with a learning method.
+- A model is that brain after it has studied.
 - The same algorithm trained on different data gives a different model.
 
 The 3 types of ML
+
 1. Supervised Learning: the data has answers (labels).
-1.1. Regression predicts a number (house price, temperature)
-1.2. Classification predicts a category (diabetic or not, spam or not)
+   1.1. Regression predicts a number (house price, temperature)
+   1.2. Classification predicts a category (diabetic or not, spam or not)
 
 2. Unsupervised Learning: no labels, so it finds hidden structure (e.g., grouping customers into segments)
-3. Reinforcement Learning: an agent learns by trial and reward (games, robotics). 
+3. Reinforcement Learning: an agent learns by trial and reward (games, robotics).
 
 patient file is Supervised → Classification.
 
 The standard ML workflow
 
 1. Get data → 2. Explore (EDA) → 3. Clean/Prepare → 4. Split train/test
-   → 5. Choose algorithm → 6. Train (.fit) → 7. Predict → 8. Evaluate → 9. 
+   → 5. Choose algorithm → 6. Train (.fit) → 7. Predict → 8. Evaluate → 9.
 
+Most important ML algorithms
+1️⃣ Regression (predict a number)
+Algorithm -> Simple idea -> Real-life example -> scikit-learn
 
-Why split into train and test?
-Think of a student who memorizes last year's exam answers. They'll score 100% on that exact exam but fail a new one. A model can "memorize" the same way, which is called overfitting. So we hide about 20% of the data (the test set) and only check against it at the end. That gives an honest score.
+Linear Regression -> Finds a steady pattern and combines factors by importance -> House price, salary from experience -> LinearRegression
 
-Why fit the scaler on train only?
+₹10 ₹20 ₹30 ₹40
+2 cho 4 cho 6 ch 8
 
-X_train_scaled = scaler.fit_transform(X_train) # learn mean/std from TRAIN
-X_test_scaled = scaler.transform(X_test) # only APPLY to test
-If the scaler learned from the test data, information about the test set would "leak" into training. This mistake is called data leakage
+Student
+features (hours_studied, sleep, marks, mobile_last_4, roll, age, bike_no,...)
 
- 
- Exercise:- 
+junk features
 
-Create ml/algos/lesson1_regression.py and try this. It's a regression problem, so you'll see the other kind of supervised learning:
+Brake / Regulations
 
-from sklearn.datasets import fetch_california_housing
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics import mean_absolute_error
+Teacher
+Essay -> Reasons -> my dog was flying /
 
-data = fetch_california_housing(as_frame=True)
-df = data.frame
-print(df.head())
+20 features(column)
 
-X = df.drop(columns=["MedHouseVal"])
-y = df["MedHouseVal"] # house value in $100,000s
+LR - 10 students
+training = check features of each student
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+MAE: Mean Absolute Error
+In one line
+MAE = on average, how far off were the model's guesses?
 
-model = LinearRegression().fit(X_train, y_train)
-preds = model.predict(X_test)
+It's a score for regression models. Lower is better, and 0 would be perfect.
 
-print("MAE:", mean_absolute_error(y_test, preds))
-# ai-ml
+Ridge / Lasso -> Linear Regression with "brakes", so it doesn't over-trust any single feature -> Same uses, when there are many features Ridge, Lasso
+
+Ridge:- multiples features, decrease importance of all features so importance of junk features becomes almost 0
+
+Lasso:-
+
+Polynomial Regression -> Linear Regression that can follow curves -> Car resale value dropping fast, then slowly -> PolynomialFeatures + LinearRegression
+
+2️⃣ Classification (predict a category / yes-no)
+
+Logistic Regression -> Gives a probability ("70% chance of yes") Will this customer buy? Is this loan risky? LogisticRegression
+K-Nearest Neighbours (KNN) "Tell me who your neighbours are, and I'll tell you who you are": looks at the most similar past examples Recommending movies similar to ones you liked KNeighborsClassifier
+Naive Bayes Counts which words or clues usually appear with each category Spam email filtering MultinomialNB, GaussianNB
+Support Vector Machine (SVM) Draws the widest possible gap between two groups Face detection, handwriting recognition SVC
+3️⃣ Tree-based (do both regression and classification) 🔥 most used in industry
+Algorithm Simple idea Real-life example scikit-learn
+Decision Tree ⭐ A flowchart of yes/no questions, like the game "20 Questions" "Income > 50k? → Has a job? → Approve loan" DecisionTreeClassifier / Regressor
+Random Forest ⭐ Many decision trees vote together, like asking 100 experts instead of 1 Your patient_classify.py, fraud detection RandomForestClassifier / Regressor
+Gradient Boosting (XGBoost, LightGBM, CatBoost) ⭐⭐ Trees built one after another, each fixing the previous one's mistakes Banking, e-commerce, Kaggle winners GradientBoostingClassifier, xgboost library
+💡 For normal table data (Excel or CSV style), Random Forest and XGBoost are usually the best performers. They're what companies use most.
+
+4️⃣ Unsupervised (no answers given, so it finds hidden groups)
+Algorithm Simple idea Real-life example scikit-learn
+K-Means Clustering ⭐ Groups similar items together, like sorting a mixed bag of fruits into piles Grouping customers: "budget", "premium", "occasional" KMeans
+Hierarchical Clustering Builds a family tree of groups Grouping similar documents or species AgglomerativeClustering
+PCA Compresses many columns into a few important ones, like summarising a long book into key points Reducing 100 features to 10, visualising data PCA
+5️⃣ Deep Learning (Neural Networks), later in the course
+Used for images, audio, text, and video, which regular algorithms struggle with.
+
+CNN → images (face unlock, X-ray scans)
+RNN / LSTM → sequences (older speech and text models)
+Transformers → ChatGPT, Claude, Google Translate
+These use different libraries (PyTorch, TensorFlow), and we'll get there after the basics.

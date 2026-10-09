@@ -89,6 +89,15 @@ Lasso:-
 
 Polynomial Regression -> Linear Regression that can follow curves -> Car resale value dropping fast, then slowly -> PolynomialFeatures + LinearRegression
 
+degree = 1,2,3,4,10
+
+column column*column column*column\*column
+20 400 8000
+40 1600 . . .
+60 3600
+80 6400
+100 10000
+
 2️⃣ Classification (predict a category / yes-no)
 
 Logistic Regression -> Gives a probability ("70% chance of yes") Will this customer buy? Is this loan risky? LogisticRegression

@@ -123,3 +123,43 @@ CNN → images (face unlock, X-ray scans)
 RNN / LSTM → sequences (older speech and text models)
 Transformers → ChatGPT, Claude, Google Translate
 These use different libraries (PyTorch, TensorFlow), and we'll get there after the basics.
+
+
+
+
+
+🌲🌲🌲 Random Forest, point by point
+What it is: many Decision Trees that vote together. "Forest" = many trees. "Random" = each tree is built a bit differently.
+
+The problem it fixes: one deep tree memorises the training data (overfits). You saw this with Titanic: 99% train accuracy, only 70% test.
+
+The core idea: the wisdom of the crowd. Ask 1 person to guess the number of sweets in a jar and they may be far off. Ask 200 people and average their guesses, and you get very close. Each person's mistakes cancel out.
+
+Randomness #1: each tree gets a random sample of rows. It picks rows at random with repeats allowed, so a passenger may appear twice and others not at all. This is called bagging (bootstrap sampling).
+
+Randomness #2: each question looks at only a few random columns. If every tree could always use is_male, they'd all look the same. Forcing variety makes the trees different from each other.
+
+Why different trees help: they make different mistakes, and in the vote those mistakes cancel out. Trees that were all the same would just repeat each other's errors.
+
+How it predicts:
+
+Classification: each tree votes, and the majority wins. predict_proba = the average of the trees' chances.
+Regression (RandomForestRegressor): it takes the average of the trees' numbers.
+Main settings:
+
+Setting	Meaning	Typical value
+n_estimators	Number of trees	100–500
+max_depth, min_samples_leaf	The brakes for each tree	Tune them
+max_features	How many columns each question can look at	The default is fine
+n_jobs=-1	Use all CPU cores (faster)	Always set it
+More trees never overfit. They only make training slower. Accuracy improves and then levels off.
+
+There's a free test score: the OOB score. Each tree never sees about 1/3 of the rows, so those rows can test it. This gives an honest accuracy without a separate test set.
+
+No scaling needed. It's built from trees, which only ask questions like age ≤ 9.5.
+
+Strengths: high accuracy, hard to overfit, works well on table data with little tuning, and gives feature_importances_.
+
+Weaknesses: you can't read it as one flowchart (200 trees is too many), it's slower and bigger than one tree, and it's not ideal for images or text.
+
+Use cases: fraud detection, loan default risk, medical diagnosis, customer churn, product recommendations, predicting stock or sales demand, and land-use mapping from satellite data.
